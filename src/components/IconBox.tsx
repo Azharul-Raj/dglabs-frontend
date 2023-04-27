@@ -1,4 +1,3 @@
-import React from 'react';
 import {FiLock,FiDollarSign,FiThumbsUp,FiCheck} from 'react-icons/fi'
 import {BiUser} from 'react-icons/bi'
  type Props={

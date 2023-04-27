@@ -1,5 +1,3 @@
-import React from 'react'
-import {FiChevronRight} from 'react-icons/fi'
 import blackLogo from '../assets/Lookscout.png';
 import whiteLogo from '../assets/Lookscout-white.png'
 import IconBox from './IconBox';
