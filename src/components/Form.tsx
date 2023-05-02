@@ -1,20 +1,46 @@
+import { ChangeEvent,useContext } from 'react'
 import { FiInfo,FiChevronRight } from 'react-icons/fi'
+import { DATA_CONTEXT } from '../context/DataProvider'
+import addUser from '../axios/addUser'
+import { userProps } from '../types/type'
+import { Navigate, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 function Form() {
+    const navigate=useNavigate()
+    // @ts-ignore
+    const {email,setEmail}=useContext(DATA_CONTEXT)
+    const handleSubmit=async(e:ChangeEvent<HTMLFormElement>)=>{
+        e.preventDefault();
+        const form=e.target;
+        const name=form.userName.value;
+        const email=form.email.value;
+        const data:userProps={name,email}        
+        setEmail(email)
+        axios.post(`https://dglabs-server.vercel.app/add_user`,data)
+        .then(res=>{
+            console.log(res.data);
+            if(res.data){
+                navigate('/dashboard')
+            }
+        })
+        .catch(err=>console.log(err))
+       
+    }
     return (
         <div className="mt-6 md:mt-8">
             {/* form part */}
             <div className="">
-                <form action="">
+                <form onSubmit={handleSubmit} action="">
                     <div className="px-4 md:px-12 ">
                     <div className="relative">
                         <label className='text-gray-900 dark:text-gray-200 font-semibold text-sm' htmlFor="Name">Name</label>
-                        <input className='block border dark:bg-[#333B48] dark:border-0 dark:placeholder:text-[#F9F9F9] my-2 dark:text-gray-200 placeholder:text-gray-900 border-gray-300  focus:outline-none w-full rounded-md p-2' type="text" name="" id="name" placeholder='Bryan Koelpin' />
+                        <input className='block border dark:bg-[#333B48] dark:border-0 dark:placeholder:text-[#F9F9F9] my-2 dark:text-gray-200 placeholder:text-gray-900 border-gray-300  focus:outline-none w-full rounded-md p-2' type="text" name="userName" id="name" placeholder='Bryan Koelpin' />
                         <FiInfo size={24} className="text-gray-500 absolute top-10 right-3" />
                     </div>
                     <div className="relative">
                         <label className='text-gray-900 dark:text-gray-200 font-semibold text-sm' htmlFor="Name">Email*</label>
-                        <input required className='block border dark:bg-[#333B48] dark:border-0 dark:placeholder:text-[#F9F9F9] my-2 dark:text-gray-200 placeholder:text-gray-900 border-gray-300  focus:outline-none w-full rounded-md p-2' type="text" name="" id="email" placeholder='Email Address' />
+                        <input required className='block border dark:bg-[#333B48] dark:border-0 dark:placeholder:text-[#F9F9F9] my-2 dark:text-gray-200 placeholder:text-gray-900 border-gray-300  focus:outline-none w-full rounded-md p-2' type="text" name="email" id="email" placeholder='Email Address' />
                         <span className='text-sm dark:text-gray-400 text-gray-500'>Please input a real Email Address</span>
                         <FiInfo size={24} className="text-gray-500 absolute top-10 right-3" />
                     </div>

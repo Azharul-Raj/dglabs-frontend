@@ -1,6 +1,9 @@
 import { useState,useEffect } from 'react'
 import './App.css'
-import MainSection from './components/MainSection';
+import { Routes,Route, Router } from 'react-router-dom';
+import Home from './components/Home';
+import Main from './layout/Main';
+import Dashboard from './components/Dashboard';
 
 function App() {
   const [darkMode,setDarkMode]=useState(false);
@@ -13,11 +16,10 @@ function App() {
   }, []);
   
   return (
-    <div className={`flex flex-col dark:bg-[#151B28] justify-center items-center py-10 md:py-40`}>
-      <div className="">
-      </div>
-     <MainSection darkMode={darkMode}/>     
-    </div>
+    <Routes>
+      <Route path='/' element={<Home darkMode={darkMode}/>}/>
+      <Route path='/dashboard' element={<Dashboard darkMode={darkMode} />}/>
+    </Routes>
   )
 }
 

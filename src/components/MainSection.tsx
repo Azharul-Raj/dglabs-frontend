@@ -2,11 +2,10 @@ import blackLogo from '../assets/Lookscout.png';
 import whiteLogo from '../assets/Lookscout-white.png'
 import IconBox from './IconBox';
 import Form from './Form';
+import { PropsType } from '../types/type';
 
-type Props={
-  darkMode:boolean;
-}
-function MainSection({darkMode}:Props) {
+
+function MainSection({darkMode}:PropsType) {
   return (
     <div className="w-full px-4 md:w-[650px]">
         <div className="flex justify-center pb-10">
