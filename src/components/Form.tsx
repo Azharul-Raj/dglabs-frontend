@@ -1,9 +1,8 @@
 import { ChangeEvent,useContext } from 'react'
 import { FiInfo,FiChevronRight } from 'react-icons/fi'
 import { DATA_CONTEXT } from '../context/DataProvider'
-import addUser from '../axios/addUser'
 import { userProps } from '../types/type'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 function Form() {
