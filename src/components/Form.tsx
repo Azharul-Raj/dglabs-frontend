@@ -34,7 +34,7 @@ function Form() {
                     <div className="px-4 md:px-12 ">
                     <div className="relative">
                         <label className='text-gray-900 dark:text-gray-200 font-semibold text-sm' htmlFor="Name">Name</label>
-                        <input className='block border dark:bg-[#333B48] dark:border-0 dark:placeholder:text-[#F9F9F9] my-2 dark:text-gray-200 placeholder:text-gray-900 border-gray-300  focus:outline-none w-full rounded-md p-2' type="text" name="userName" id="name" placeholder='Bryan Koelpin' />
+                        <input required className='block border dark:bg-[#333B48] dark:border-0 dark:placeholder:text-[#F9F9F9] my-2 dark:text-gray-200 placeholder:text-gray-900 border-gray-300  focus:outline-none w-full rounded-md p-2' type="text" name="userName" id="name" placeholder='Bryan Koelpin' />
                         <FiInfo size={24} className="text-gray-500 absolute top-10 right-3" />
                     </div>
                     <div className="relative">
