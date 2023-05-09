@@ -10,21 +10,24 @@ import ImageLoader from "./ImageLoader";
 
 function Dashboard({ darkMode }: PropsType) {
   // @ts-ignore
-  const { email } = useContext(DATA_CONTEXT);
+  const { email,setUpdateInfo } = useContext(DATA_CONTEXT);
+  const [refresh,setRefresh]=useState(false);
   const [loading,setLoading]=useState(false)
   const [userData, setUserData] = useState<userDataType>();
+  useEffect(() => {
+    axios.get(`https://dglabs-server.vercel.app/get_user/${email}`)
+      .then(res => {
+        setUserData(res.data)
+        setUpdateInfo(res.data.data.value)
+      })
+      .catch(err => console.log(err))
+  }, [email,refresh])
   // if(!email){
   //   return <div className="h-[100vh] flex justify-center items-center">
   //     <Spinner/>
   //   </div>
   // }
-  if(loading){
-    return (
-    <div className="flex justify-center items-center">
-      <ImageLoader/>
-    </div>
-    )
-  }
+  
 
   // const handle submit
   // console.log( import.meta.env.VITE_API_KEY);
@@ -45,6 +48,7 @@ function Dashboard({ darkMode }: PropsType) {
       .then(res=>{
         setLoading(false)
         console.log(res.data)
+        setRefresh(!refresh)
       })
       .catch(err=>{
         setLoading(false)
@@ -55,18 +59,8 @@ function Dashboard({ darkMode }: PropsType) {
       setLoading(false)
       console.log(err)
     })
-    
-    // axios.post(``)
   }
   
-  useEffect(() => {
-    axios.get(`https://dglabs-server.vercel.app/get_user/${email}`)
-      .then(res => {
-        setUserData(res.data)
-      })
-      .catch(err => console.log(err))
-  }, [email])
-  console.log(userData);
 
   return (
 
@@ -337,7 +331,11 @@ function Dashboard({ darkMode }: PropsType) {
           </div>
         </div>
 
-        <div className="px-6 pt-6 2xl:container">
+       {loading?
+       <div className="flex h-full justify-center items-center">
+        <ImageLoader/>
+       </div>
+       : <div className="px-6 pt-6 2xl:container">
           <div
             className="flex h-[100vh] items-center justify-center rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600"
           >
@@ -345,12 +343,12 @@ function Dashboard({ darkMode }: PropsType) {
             <form onSubmit={handleUpdate} className="space-y-4" action="">
               <div className="">
                 <label className="block text-white font-semibold " htmlFor="title">ButtonTitle</label>
-              <input className="bg-white rounded-lg p-2 focus:outline-none" type="text" name="btnTitle" id="" />
+              <input required className="bg-white rounded-lg p-2 focus:outline-none" type="text" name="btnTitle" id="" />
               </div>
               {/* file upload */}
               <div className="">
              <label className="block text-white font-semibold" htmlFor="uploadImage">Upload Logo</label>
-             <input className="text-white" type="file" name="image" id="" />
+             <input required className="text-white" type="file" name="image" id="" />
               </div>
               {/* submit btn */}
               <button type="submit" className="relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-r from-yellow-300 to-pink-300 before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95">
@@ -360,7 +358,7 @@ function Dashboard({ darkMode }: PropsType) {
             </form>
             {/* form */}
           </div>
-        </div>
+        </div>}
       </div>
     </section>
 
