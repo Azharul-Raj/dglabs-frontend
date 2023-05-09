@@ -1,4 +1,5 @@
 import { ChangeEvent, useContext } from 'react'
+import toast from 'react-hot-toast'
 import axios from 'axios'
 import { FiInfo, FiChevronRight } from 'react-icons/fi'
 import { DATA_CONTEXT } from '../context/DataProvider'
@@ -26,7 +27,7 @@ function Form({ btnTitle }: Props) {
                     navigate('/dashboard')
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => toast.error(err.message))
 
     }
     return (

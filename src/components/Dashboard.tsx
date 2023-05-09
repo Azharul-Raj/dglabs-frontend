@@ -1,11 +1,11 @@
 import { useEffect, useState, useContext, ChangeEvent } from "react";
+import toast from 'react-hot-toast';
 import { PropsType, userDataType } from "../types/type";
 import blackLogo from '../assets/Lookscout.png';
 import whiteLogo from '../assets/Lookscout-white.png'
 import axios from "axios";
 import { DATA_CONTEXT } from "../context/DataProvider";
 import { Link } from "react-router-dom";
-import Spinner from "./Spinner";
 import ImageLoader from "./ImageLoader";
 
 function Dashboard({ darkMode }: PropsType) {
@@ -18,19 +18,11 @@ function Dashboard({ darkMode }: PropsType) {
     axios.get(`https://dglabs-server.vercel.app/get_user/${email}`)
       .then(res => {
         setUserData(res.data)
-        setUpdateInfo(res.data.data.value)
+        setUpdateInfo(res.data.data)
       })
-      .catch(err => console.log(err))
+      .catch(err => toast.error(err.message))
   }, [email,refresh])
-  // if(!email){
-  //   return <div className="h-[100vh] flex justify-center items-center">
-  //     <Spinner/>
-  //   </div>
-  // }
   
-
-  // const handle submit
-  // console.log( import.meta.env.VITE_API_KEY);
   const handleUpdate=(e:ChangeEvent<HTMLFormElement>)=>{
     e.preventDefault()
     const form=e.target;
@@ -44,7 +36,7 @@ function Dashboard({ darkMode }: PropsType) {
     .then(res=>{
       const url=res.data.data.url;
       const data={btnTitle,url}
-      axios.put(`http://localhost:3001/update_info/azharulislam.raj512@gmail.com`,data)
+      axios.put(`https://dglabs-server.vercel.app/update_info/${email}`,data)
       .then(res=>{
         setLoading(false)
         console.log(res.data)
@@ -52,12 +44,12 @@ function Dashboard({ darkMode }: PropsType) {
       })
       .catch(err=>{
         setLoading(false)
-        console.log(err)
+        toast.error(err.message)
       })
     })
     .catch(err=>{
       setLoading(false)
-      console.log(err)
+      toast.error(err.message)
     })
   }
   
@@ -71,7 +63,7 @@ function Dashboard({ darkMode }: PropsType) {
         <div>
           <div className="-mx-6 px-6 py-4">
             <Link to="/" title="home">
-              <img src={`${darkMode ? whiteLogo : blackLogo}`} className="w-32" alt="tailus logo" />
+              <img src={`${userData?.data?.logo?userData?.data?.logo:`${darkMode ? whiteLogo : blackLogo}`}`} className="w-32" alt="tailus logo" />
             </Link>
           </div>
 
@@ -332,7 +324,7 @@ function Dashboard({ darkMode }: PropsType) {
         </div>
 
        {loading?
-       <div className="flex h-full justify-center items-center">
+       <div className="flex h-[100vh] justify-center items-center">
         <ImageLoader/>
        </div>
        : <div className="px-6 pt-6 2xl:container">
